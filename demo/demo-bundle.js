@@ -13,35 +13,37 @@ var DemoApp = function () {
   function DemoApp() {
     _classCallCheck(this, DemoApp);
 
-    this._modalActive = false;
+    this.modalActive = false;
   }
 
   _createClass(DemoApp, [{
     key: 'activateModal',
     value: function activateModal() {
-      this._modalActive = true;
+      this.modalActive = true;
     }
   }, {
     key: 'deactivateModal',
     value: function deactivateModal() {
-      this._modalActive = false;
+      this.modalActive = false;
     }
   }, {
     key: 'render',
     value: function render() {
       var _this = this;
 
-      return h('main.container', h('h1.text-center', 'Hyperdom Modal Demo'), h('p', 'This demo is awesome.'), h('button', {
+      return h('main.container', h('h1.text-center', h('a', { href: 'https://github.com/featurist/hyperdom-modal' }, 'Hyperdom Modal'), ' Demo'), h('.text-center', h('button.button', {
         type: 'button',
         onclick: function onclick() {
           return _this.activateModal();
         }
-      }, 'Open Modal'), new HyperdomModal({ showModal: this._modalActive }, h('.modal', h('header.modal-header', h('h2', 'Modal Heading')), h('.modal-content', h('p', 'This is some modal content.')), h('footer.modal-footer', h('button.button', {
+      }, 'Open Modal')), new HyperdomModal({
+        showModal: this.modalActive
+      }, h('.text-center', h('h2.modal-heading', 'Modal Heading'), h('p', 'This is a modal with some custom styling.'), h('button.button', {
         type: 'button',
         onclick: function onclick() {
           return _this.deactivateModal();
         }
-      }, 'Close Modal')))));
+      }, 'Close Modal'))));
     }
   }]);
 
@@ -3882,11 +3884,15 @@ var dialogPolyfill = require('dialog-polyfill');
 
 module.exports = function () {
   function Modal(_ref, content) {
-    var showModal = _ref.showModal;
+    var _ref$showModal = _ref.showModal,
+        showModal = _ref$showModal === undefined ? false : _ref$showModal,
+        _ref$rootClass = _ref.rootClass,
+        rootClass = _ref$rootClass === undefined ? 'modal' : _ref$rootClass;
 
     _classCallCheck(this, Modal);
 
     this._showModal = showModal;
+    this._rootClass = rootClass;
     this._content = content;
   }
 
@@ -3913,7 +3919,7 @@ module.exports = function () {
   }, {
     key: 'render',
     value: function render() {
-      return h('dialog', this._content);
+      return h('dialog', { class: this._rootClass }, this._content);
     }
   }]);
 
