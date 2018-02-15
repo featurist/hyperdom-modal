@@ -7,7 +7,7 @@
 * By default modal expands its dimensions to fit your content - adds styles to limit dimensions
 * Modal HTML is returned straight away to your app (rather than returning on show) and hidden with CSS. The `open` attribute is added to the `<dialog>` to reveal it
 
-[View Demo](https://featurist.github.io/hyperdom-modal/demo/)
+[**View Demo**](https://featurist.github.io/hyperdom-modal/demo/)
 
 ## Installation
 
@@ -77,14 +77,14 @@ hyperdom.append(document.getElementById('root'), new YourApp())
 
 Supported browsers provide their own default styles for the modal and backdrop. **You must include the [polyfill stylesheet](https://github.com/GoogleChrome/dialog-polyfill/blob/master/dialog-polyfill.css) in your app for unsupported browsers** to achieve the same default behaviour.
 
-You can add styles to override the defaults and style the content passed in to your modal. Here's an [example stylesheet](demo/css/modal.css) for the modal content.
+You can add styles to override the defaults and style the content passed in to your modal. [Example stylesheet](demo/css/modal.css).
 
 ## Options
 
-|    Name     |    Type     |  Default  | Description                                          |
-| :---------: | :---------: | :-------: | :--------------------------------------------------- |
-| `showModal` | `{Boolean}` |  `false`  | Trigger the modal displaying on the page             |
-| `rootClass` | `{String}`  | `'modal'` | Override the default class on the root modal element |
+|    Name     |   Type    |  Default  | Description                                          |
+| :---------: | :-------: | :-------: | :--------------------------------------------------- |
+| `showModal` | `Boolean` |  `false`  | Trigger the modal displaying on the page             |
+| `rootClass` | `String`  | `'modal'` | Override the default class on the root modal element |
 
 ## More About `<dialog>`
 

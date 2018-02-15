@@ -19,7 +19,7 @@
     "accessible",
     "accessibility"
   ],
-  "repository": "Featurist/hyperdom-modal",
+  "repository": "featurist/hyperdom-modal",
   "license": "MIT",
   "scripts": {
     "start": "budo demo/demo.js:demo-bundle.js --live --dir demo -- -t babelify -o demo/demo-bundle.js",
