@@ -7,6 +7,8 @@
 * By default modal expands its dimensions to fit your content - adds styles to limit dimensions
 * Modal HTML is returned straight away to your app (rather than returning on show) and hidden with CSS. The `open` attribute is added to the `<dialog>` to reveal it
 
+[View Demo](https://featurist.github.io/hyperdom-modal/demo/)
+
 ## Installation
 
 ```sh
