@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "xo",
+    "prettier"
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "semi": false
+      }
+    ]
+  },
+  "env": {
+    "node": true,
+    "browser": true
+  }
+}

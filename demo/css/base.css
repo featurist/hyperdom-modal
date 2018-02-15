@@ -1,0 +1,35 @@
+html {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 900px;
+  padding: 0 20px;
+}
+
+.button {
+  background: transparent;
+  border: 1px solid #444;
+  color: #444;
+  display: inline-block;
+  margin: 0;
+  padding: 0.4em 0.75em;
+  text-align: center;
+  user-select: none;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.text-center {
+  text-align: center;
+}

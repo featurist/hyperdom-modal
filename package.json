@@ -1,0 +1,64 @@
+{
+  "name": "hyperdom-modal",
+  "version": "0.0.0",
+  "description": "Accessible modal built with Hyperdom that uses <dialog> element.",
+  "homepage": "https://github.com/featurist/hyperdom-modal#readme",
+  "bugs": {
+    "url": "https://github.com/featurist/hyperdom-modal/issues"
+  },
+  "author": {
+    "name": "Alec Rust",
+    "email": "alec@featurist.co.uk"
+  },
+  "main": "dist/hyperdom-modal.js",
+  "keywords": [
+    "hyperdom",
+    "modal",
+    "dialog",
+    "alert",
+    "accessible",
+    "accessibility"
+  ],
+  "repository": "Featurist/hyperdom-modal",
+  "license": "MIT",
+  "scripts": {
+    "start": "budo demo/demo.js:demo-bundle.js --live --dir demo -- -t babelify -o demo/demo-bundle.js",
+    "demo-bundle": "browserify demo/demo.js -t babelify -o demo/demo-bundle.js",
+    "format": "prettier '**/*.{js,json,md}' --write; eslint '**/*.js' --fix",
+    "prepublish": "nsp check",
+    "build": "babel src -d dist",
+    "precommit": "lint-staged"
+  },
+  "dependencies": {
+    "dialog-polyfill": "^0.4.9"
+  },
+  "peerDependencies": {
+    "hyperdom": "^0.11.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babelify": "^8.0.0",
+    "browserify": "^16.1.0",
+    "budo": "^11.1.3",
+    "eslint": "^4.1.0",
+    "eslint-config-prettier": "^2.4.0",
+    "eslint-config-xo": "^0.20.0",
+    "eslint-plugin-prettier": "^2.2.0",
+    "husky": "^0.14.3",
+    "hyperdom": "^0.11.0",
+    "lint-staged": "^6.1.0",
+    "nsp": "^3.1.0",
+    "prettier": "^1.7.0"
+  },
+  "lint-staged": {
+    "*.{js,json,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}
