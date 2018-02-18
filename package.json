@@ -1,6 +1,6 @@
 {
   "name": "hyperdom-modal",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Accessible modal built with Hyperdom that uses <dialog> element.",
   "homepage": "https://github.com/featurist/hyperdom-modal#readme",
   "bugs": {

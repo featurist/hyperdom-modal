@@ -40,7 +40,8 @@ class DemoApp {
       ),
       new HyperdomModal(
         {
-          showModal: this.modalActive
+          showModal: this.modalActive,
+          onExit: this.deactivateModal
         },
         h(
           '.modal-content',
