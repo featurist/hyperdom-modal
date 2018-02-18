@@ -5,27 +5,30 @@ const h = hyperdom.html
 const dialogPolyfill = require('dialog-polyfill')
 
 module.exports = class Modal {
-  constructor({ showModal = false, rootClass = 'modal' }, content) {
+  constructor({ showModal = false, onExit, rootClass = 'modal' }, content) {
     this._showModal = showModal
+    this._onExit = onExit
     this._rootClass = rootClass
     this._content = content
   }
 
   onrender(element) {
-    // Register element with polyfill
     dialogPolyfill.registerDialog(element)
 
-    // Trigger native modal show or close
     if (this._showModal) {
       element.showModal()
     } else {
       element.close()
     }
 
-    // Close when clicking on modal or backdrop
+    element.addEventListener('cancel', () => {
+      this._onExit()
+    })
+
     element.addEventListener('click', event => {
       if (event.target === element) {
-        element.close('cancelled')
+        element.close()
+        this._onExit()
       }
     })
   }

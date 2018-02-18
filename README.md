@@ -50,7 +50,8 @@ class YourApp {
       ),
       new HyperdomModal(
         {
-          showModal: this.modalActive
+          showModal: this.modalActive,
+          onExit: this.deactivateModal
         },
         h(
           'div',
@@ -81,10 +82,11 @@ You can add styles to override the defaults and style the content passed in to y
 
 ## Options
 
-|    Name     |   Type    |  Default  | Description                                          |
-| :---------: | :-------: | :-------: | :--------------------------------------------------- |
-| `showModal` | `Boolean` |  `false`  | Trigger the modal displaying on the page             |
-| `rootClass` | `String`  | `'modal'` | Override the default class on the root modal element |
+|    Name     |    Type    |   Default   | Description                                          |
+| :---------: | :--------: | :---------: | :--------------------------------------------------- |
+| `showModal` | `Boolean`  |   `false`   | Trigger the modal displaying on the page             |
+|  `onExit`   | `Function` | `undefined` | Function to call when user closes modal              |
+| `rootClass` |  `String`  |  `'modal'`  | Override the default class on the root modal element |
 
 ## More About `<dialog>`
 
