@@ -75,7 +75,7 @@ hyperdom.append(document.getElementById('root'), new YourApp())
 
 ### CSS
 
-Supported browsers provide their own default styles for the modal and backdrop. **You must include the [polyfill stylesheet](https://github.com/GoogleChrome/dialog-polyfill/blob/master/dialog-polyfill.css) in your app for unsupported browsers** to achieve the same default behaviour.
+Supported browsers provide their own default styles for the modal and backdrop. **You must include the polyfill stylesheet in your app for unsupported browsers** to achieve the same default behaviour. You can include it from this package at `node_modules/hyperdom-modal/dist/dialog-polyfill.css`
 
 You can add styles to override the defaults and style the content passed in to your modal. [Example stylesheet](demo/css/modal.css).
 

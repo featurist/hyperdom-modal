@@ -23,11 +23,12 @@
   "license": "MIT",
   "scripts": {
     "start": "budo demo/demo.js:demo-bundle.js --live --dir demo -- -t babelify -o demo/demo-bundle.js",
-    "demo-bundle": "browserify demo/demo.js -t babelify -o demo/demo-bundle.js",
     "lint": "prettier '**/*.{js,json,md}' --write; eslint '**/*.js' --fix; stylelint 'demo/css/*.css' --fix",
-    "prepublish": "nsp check",
-    "build": "babel src -d dist",
-    "precommit": "lint-staged"
+    "copy-polyfill-css": "cp node_modules/dialog-polyfill/dialog-polyfill.css dist",
+    "demo-bundle": "browserify demo/demo.js -t babelify -o demo/demo-bundle.js",
+    "build": "babel src -d dist && yarn copy-polyfill-css",
+    "precommit": "lint-staged",
+    "prepublish": "nsp check"
   },
   "dependencies": {
     "dialog-polyfill": "^0.4.9"
