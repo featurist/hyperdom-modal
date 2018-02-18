@@ -15,10 +15,8 @@ module.exports = class Modal {
   onrender(element) {
     dialogPolyfill.registerDialog(element)
 
-    if (this._showModal) {
+    if (this._showModal && !element.hasAttribute('open')) {
       element.showModal()
-    } else {
-      element.close()
     }
 
     element.addEventListener('cancel', () => {
