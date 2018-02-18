@@ -1,3 +1,7 @@
+# 0.2.2 / 2018-02-18
+
+* Fix modal not closing in some cases
+
 # 0.2.1 / 2018-02-18
 
 * Improve handling of modal re-render when already open
