@@ -3908,6 +3908,8 @@ module.exports = function () {
 
       if (this._showModal && !element.hasAttribute('open')) {
         element.showModal();
+      } else {
+        element.close();
       }
 
       element.addEventListener('cancel', function () {
