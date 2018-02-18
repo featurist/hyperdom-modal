@@ -13,7 +13,8 @@
         "singleQuote": true,
         "semi": false
       }
-    ]
+    ],
+    "no-console": "warn"
   },
   "env": {
     "node": true,
