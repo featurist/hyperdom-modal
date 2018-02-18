@@ -43,7 +43,7 @@ class DemoApp {
           showModal: this.modalActive
         },
         h(
-          '.text-center',
+          '.modal-content',
           h('h2.modal-heading', 'Modal Heading'),
           h('p', 'This is a modal with some custom styling.'),
           h(

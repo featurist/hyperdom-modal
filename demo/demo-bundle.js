@@ -38,7 +38,7 @@ var DemoApp = function () {
         }
       }, 'Open Modal')), new HyperdomModal({
         showModal: this.modalActive
-      }, h('.text-center', h('h2.modal-heading', 'Modal Heading'), h('p', 'This is a modal with some custom styling.'), h('button.button', {
+      }, h('.modal-content', h('h2.modal-heading', 'Modal Heading'), h('p', 'This is a modal with some custom styling.'), h('button.button', {
         type: 'button',
         onclick: function onclick() {
           return _this.deactivateModal();
