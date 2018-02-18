@@ -1,3 +1,7 @@
+# 0.2.1 / 2018-02-18
+
+* Improve handling of modal re-render when already open
+
 # 0.2.0 / 2018-02-18
 
 * Add `onExit` option
