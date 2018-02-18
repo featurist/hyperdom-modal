@@ -24,7 +24,7 @@
   "scripts": {
     "start": "budo demo/demo.js:demo-bundle.js --live --dir demo -- -t babelify -o demo/demo-bundle.js",
     "demo-bundle": "browserify demo/demo.js -t babelify -o demo/demo-bundle.js",
-    "format": "prettier '**/*.{js,json,md}' --write; eslint '**/*.js' --fix",
+    "lint": "prettier '**/*.{js,json,md}' --write; eslint '**/*.js' --fix; stylelint 'demo/css/*.css' --fix",
     "prepublish": "nsp check",
     "build": "babel src -d dist",
     "precommit": "lint-staged"
@@ -49,7 +49,9 @@
     "hyperdom": "^0.11.0",
     "lint-staged": "^6.1.0",
     "nsp": "^3.1.0",
-    "prettier": "^1.7.0"
+    "prettier": "^1.7.0",
+    "stylelint": "^9.0.0",
+    "stylelint-config-standard": "^18.1.0"
   },
   "lint-staged": {
     "*.{js,json,md}": [
@@ -58,6 +60,10 @@
     ],
     "*.js": [
       "eslint --fix",
+      "git add"
+    ],
+    "*.css": [
+      "stylelint --fix",
       "git add"
     ]
   }
