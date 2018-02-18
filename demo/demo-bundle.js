@@ -37,7 +37,8 @@ var DemoApp = function () {
           return _this.activateModal();
         }
       }, 'Open Modal')), new HyperdomModal({
-        showModal: this.modalActive
+        showModal: this.modalActive,
+        onExit: this.deactivateModal
       }, h('.modal-content', h('h2.modal-heading', 'Modal Heading'), h('p', 'This is a modal with some custom styling.'), h('button.button', {
         type: 'button',
         onclick: function onclick() {
@@ -3886,12 +3887,14 @@ module.exports = function () {
   function Modal(_ref, content) {
     var _ref$showModal = _ref.showModal,
         showModal = _ref$showModal === undefined ? false : _ref$showModal,
+        onExit = _ref.onExit,
         _ref$rootClass = _ref.rootClass,
         rootClass = _ref$rootClass === undefined ? 'modal' : _ref$rootClass;
 
     _classCallCheck(this, Modal);
 
     this._showModal = showModal;
+    this._onExit = onExit;
     this._rootClass = rootClass;
     this._content = content;
   }
@@ -3899,20 +3902,22 @@ module.exports = function () {
   _createClass(Modal, [{
     key: 'onrender',
     value: function onrender(element) {
-      // Register element with polyfill
+      var _this = this;
+
       dialogPolyfill.registerDialog(element);
 
-      // Trigger native modal show or close
-      if (this._showModal) {
+      if (this._showModal && !element.hasAttribute('open')) {
         element.showModal();
-      } else {
-        element.close();
       }
 
-      // Close when clicking on modal or backdrop
+      element.addEventListener('cancel', function () {
+        _this._onExit();
+      });
+
       element.addEventListener('click', function (event) {
         if (event.target === element) {
-          element.close('cancelled');
+          element.close();
+          _this._onExit();
         }
       });
     }
