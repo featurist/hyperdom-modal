@@ -5,6 +5,10 @@
   padding: 0;
 }
 
+.modal[open] {
+  animation: slide-up 0.4s ease-out;
+}
+
 .modal::backdrop {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.6);
@@ -18,4 +22,16 @@
 .modal-heading {
   font-weight: normal;
   margin-top: 0;
+}
+
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translate(0, 15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
 }
