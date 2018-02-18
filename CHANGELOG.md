@@ -1,3 +1,7 @@
+# 0.2.0 / 2018-02-18
+
+* Add `onExit` option
+
 # 0.1.0 / 2018-02-18
 
 * Intial public release
