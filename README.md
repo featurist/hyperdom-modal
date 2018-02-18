@@ -17,7 +17,7 @@ $ yarn add hyperdom-modal
 
 ## Usage
 
-### Example App
+### JS
 
 ```js
 const hyperdom = require('hyperdom')
@@ -73,7 +73,7 @@ class YourApp {
 hyperdom.append(document.getElementById('root'), new YourApp())
 ```
 
-### Styles
+### CSS
 
 Supported browsers provide their own default styles for the modal and backdrop. **You must include the [polyfill stylesheet](https://github.com/GoogleChrome/dialog-polyfill/blob/master/dialog-polyfill.css) in your app for unsupported browsers** to achieve the same default behaviour.
 
@@ -90,6 +90,7 @@ You can add styles to override the defaults and style the content passed in to y
 
 * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
 * https://keithjgrant.com/posts/2018/meet-the-new-dialog-element/
+* https://demo.agektmr.com/dialog/
 
 ## License
 
@@ -99,3 +100,7 @@ MIT © [Featurist Ltd](https://www.featurist.co.uk/)
 [npm-url]: https://npmjs.org/package/hyperdom-modal
 [daviddm-image]: https://david-dm.org/Featurist/hyperdom-modal.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/Featurist/hyperdom-modal
+
+## We're Hiring!
+
+Join our remote team and help us build amazing software. Check out [our career opportunities](https://www.featurist.co.uk/careers/).
