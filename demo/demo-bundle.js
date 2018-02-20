@@ -3904,11 +3904,13 @@ module.exports = function () {
     value: function onrender(element) {
       var _this = this;
 
+      var isOpen = element.hasAttribute('open');
       dialogPolyfill.registerDialog(element);
 
-      if (this._showModal && !element.hasAttribute('open')) {
+      if (!isOpen && this._showModal) {
         element.showModal();
-      } else {
+      }
+      if (isOpen && !this._showModal) {
         element.close();
       }
 
@@ -3917,7 +3919,7 @@ module.exports = function () {
       });
 
       element.addEventListener('click', function (event) {
-        if (event.target === element) {
+        if (event.target === element && element.hasAttribute('open')) {
           element.close();
           _this._onExit();
         }
