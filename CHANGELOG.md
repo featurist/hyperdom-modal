@@ -1,3 +1,7 @@
+# 0.2.3 / 2018-02-20
+
+* Check for `open` attribute before showing/hiding modal
+
 # 0.2.2 / 2018-02-18
 
 * Fix modal not closing in some cases
