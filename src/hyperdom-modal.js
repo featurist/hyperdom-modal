@@ -13,11 +13,13 @@ module.exports = class Modal {
   }
 
   onrender(element) {
+    const isOpen = element.hasAttribute('open')
     dialogPolyfill.registerDialog(element)
 
-    if (this._showModal && !element.hasAttribute('open')) {
+    if (!isOpen && this._showModal) {
       element.showModal()
-    } else {
+    }
+    if (isOpen && !this._showModal) {
       element.close()
     }
 
@@ -26,7 +28,7 @@ module.exports = class Modal {
     })
 
     element.addEventListener('click', event => {
-      if (event.target === element) {
+      if (event.target === element && element.hasAttribute('open')) {
         element.close()
         this._onExit()
       }
