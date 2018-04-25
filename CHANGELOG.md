@@ -1,3 +1,7 @@
+# 0.2.4 / 2018-04-25
+
+* Fix `window is undefined` error when loading outside of browser DOM
+
 # 0.2.3 / 2018-02-20
 
 * Check for `open` attribute before showing/hiding modal
