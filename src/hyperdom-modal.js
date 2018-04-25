@@ -2,7 +2,6 @@
 
 const hyperdom = require('hyperdom')
 const h = hyperdom.html
-const dialogPolyfill = require('dialog-polyfill')
 
 module.exports = class Modal {
   constructor({ showModal = false, onExit, rootClass = 'modal' }, content) {
@@ -14,6 +13,8 @@ module.exports = class Modal {
 
   onrender(element) {
     const isOpen = element.hasAttribute('open')
+
+    const dialogPolyfill = require('dialog-polyfill')
     dialogPolyfill.registerDialog(element)
 
     if (!isOpen && this._showModal) {
