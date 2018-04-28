@@ -49,6 +49,12 @@ module.exports = class Modal {
     element.removeEventListener('close', this._closeHandler)
     element.addEventListener('close', this._closeHandler)
     showModalOrClose(this, element)
+
+    element.addEventListener('click', event => {
+      if (event.target === element && element.hasAttribute('open')) {
+        element.close()
+      }
+    })
   }
 
   render() {
