@@ -24,54 +24,99 @@ const hyperdom = require('hyperdom')
 const h = hyperdom.html
 const HyperdomModal = require('hyperdom-modal')
 
-class YourApp {
+class DemoApp {
   constructor() {
-    this.modalActive = false
-  }
+    this._favourite = 'undecided'
+    this._choosing = false
 
-  activateModal() {
-    this.modalActive = true
-  }
-
-  deactivateModal() {
-    this.modalActive = false
-  }
-
-  render() {
-    return h(
-      'div',
+    this._modal1 = new HyperdomModal(
       h(
-        'button',
-        {
-          type: 'button',
-          onclick: () => this.activateModal()
-        },
-        'Open Modal'
-      ),
-      new HyperdomModal(
-        {
-          showModal: this.modalActive,
-          onExit: this.deactivateModal
-        },
+        '.modal-content',
+        h('h2.modal-heading', 'Hello!'),
         h(
-          'div',
-          h('h2', 'Modal Heading'),
-          h('p', 'This is modal content.'),
+          'button',
+          {
+            onclick: () => this._modal1.close()
+          },
+          'Goodbye!'
+        )
+      )
+    )
+
+    this._modal2 = new HyperdomModal(
+      {
+        openBinding: [this, '_choosing'],
+        onCancel: () => {
+          this._favourite = this._previousFavourite
+        },
+        dialogOptions: { class: 'modal' }
+      },
+      h(
+        '.modal-content',
+        h('h2.modal-heading', 'Choose your favourite!'),
+        h('p', 'What is your favourite animal?'),
+        h(
+          'p',
           h(
-            'button',
-            {
-              type: 'button',
-              onclick: () => this.deactivateModal()
-            },
-            'Close'
+            'select',
+            { binding: [this, '_favourite'] },
+            h('option', 'undecided'),
+            h('option', 'cat'),
+            h('option', 'dog')
           )
+        ),
+        h(
+          'button',
+          {
+            onclick: () => this._modal2.close()
+          },
+          'Confirm'
+        ),
+        h(
+          'button',
+          {
+            onclick: () => this._modal2.cancel()
+          },
+          'Cancel'
         )
       )
     )
   }
+
+  render() {
+    return h(
+      'main.container',
+      h(
+        '.text-center',
+        h(
+          'button',
+          {
+            onclick: () => this._modal1.open()
+          },
+          'Greet me'
+        )
+      ),
+      h(
+        '.text-center',
+        h('p', 'Your favourite animal is: ', this._favourite),
+        h(
+          'button',
+          {
+            onclick: () => {
+              this._previousFavourite = this._favourite
+              this._modal2.open()
+            }
+          },
+          'Choose an animal'
+        )
+      ),
+      this._modal1,
+      this._modal2
+    )
+  }
 }
 
-hyperdom.append(document.getElementById('root'), new YourApp())
+hyperdom.append(document.getElementById('root'), new DemoApp())
 ```
 
 ### CSS
@@ -82,11 +127,11 @@ You can add styles to override the defaults and style the content passed in to y
 
 ## Options
 
-|    Name     |    Type    |   Default   | Description                                          |
-| :---------: | :--------: | :---------: | :--------------------------------------------------- |
-| `showModal` | `Boolean`  |   `false`   | Trigger the modal displaying on the page             |
-|  `onExit`   | `Function` | `undefined` | Function to call when user closes modal              |
-| `rootClass` |  `String`  |  `'modal'`  | Override the default class on the root modal element |
+|      Name       |    Type    | Default | Description                                                                         |
+| :-------------: | :--------: | :-----: | :---------------------------------------------------------------------------------- |
+|  `openBinding`  | `binding`  | `none`  | A hyperdom binding that determines whether the modal window is open                 |
+| `dialogOptions` |  `object`  | `none`  | Any options such as attributes or event handlers passed to the `<dialog>` element   |
+|   `onCancel`    | `function` | `none`  | A function that is called when the modal dialog is closed e.g. using the escape key |
 
 ## More About `<dialog>`
 
