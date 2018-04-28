@@ -28,10 +28,28 @@ class DemoApp {
   constructor() {
     this._favourite = 'undecided'
     this._choosing = false
-    this._modal = new HyperdomModal(
+
+    this._modal1 = new HyperdomModal(
+      h(
+        '.modal-content',
+        h('h2.modal-heading', 'Hello!'),
+        h(
+          'button',
+          {
+            onclick: () => this._modal1.close()
+          },
+          'Goodbye!'
+        )
+      )
+    )
+
+    this._modal2 = new HyperdomModal(
       {
         openBinding: [this, '_choosing'],
-        options: { class: 'modal' }
+        onCancel: () => {
+          this._favourite = this._previousFavourite
+        },
+        dialogOptions: { class: 'modal' }
       },
       h(
         '.modal-content',
@@ -50,17 +68,14 @@ class DemoApp {
         h(
           'button',
           {
-            onclick: () => this._modal.toggle()
+            onclick: () => this._modal2.close()
           },
           'Confirm'
         ),
         h(
           'button',
           {
-            onclick: () => {
-              this._favourite = this._previousFavourite
-              this._modal.toggle()
-            }
+            onclick: () => this._modal2.cancel()
           },
           'Cancel'
         )
@@ -73,19 +88,30 @@ class DemoApp {
       'main.container',
       h(
         '.text-center',
+        h(
+          'button',
+          {
+            onclick: () => this._modal1.open()
+          },
+          'Greet me'
+        )
+      ),
+      h(
+        '.text-center',
         h('p', 'Your favourite animal is: ', this._favourite),
         h(
           'button',
           {
             onclick: () => {
               this._previousFavourite = this._favourite
-              this._modal.toggle()
+              this._modal2.open()
             }
           },
           'Choose an animal'
         )
       ),
-      this._modal
+      this._modal1,
+      this._modal2
     )
   }
 }
@@ -101,10 +127,11 @@ You can add styles to override the defaults and style the content passed in to y
 
 ## Options
 
-|     Name      |   Type    | Default | Description                                                                       |
-| :-----------: | :-------: | :-----: | :-------------------------------------------------------------------------------- |
-| `openBinding` | `binding` | `none`  | A hyperdom binding that determines whether the modal window is open               |
-|   `options`   | `object`  | `none`  | Any options such as attributes or event handlers passed to the `<dialog>` element |
+|      Name       |    Type    | Default | Description                                                                         |
+| :-------------: | :--------: | :-----: | :---------------------------------------------------------------------------------- |
+|  `openBinding`  | `binding`  | `none`  | A hyperdom binding that determines whether the modal window is open                 |
+| `dialogOptions` |  `object`  | `none`  | Any options such as attributes or event handlers passed to the `<dialog>` element   |
+|   `onCancel`    | `function` | `none`  | A function that is called when the modal dialog is closed e.g. using the escape key |
 
 ## More About `<dialog>`
 

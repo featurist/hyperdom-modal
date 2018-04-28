@@ -6,10 +6,28 @@ class DemoApp {
   constructor() {
     this._favourite = 'undecided'
     this._choosing = false
-    this._modal = new HyperdomModal(
+
+    this._modal1 = new HyperdomModal(
+      h(
+        '.modal-content',
+        h('h2.modal-heading', 'Hello!'),
+        h(
+          'button',
+          {
+            onclick: () => this._modal1.close()
+          },
+          'Goodbye!'
+        )
+      )
+    )
+
+    this._modal2 = new HyperdomModal(
       {
         openBinding: [this, '_choosing'],
-        options: { class: 'modal' }
+        onCancel: () => {
+          this._favourite = this._previousFavourite
+        },
+        dialogOptions: { class: 'modal' }
       },
       h(
         '.modal-content',
@@ -28,17 +46,14 @@ class DemoApp {
         h(
           'button',
           {
-            onclick: () => this._modal.toggle()
+            onclick: () => this._modal2.close()
           },
           'Confirm'
         ),
         h(
           'button',
           {
-            onclick: () => {
-              this._favourite = this._previousFavourite
-              this._modal.toggle()
-            }
+            onclick: () => this._modal2.cancel()
           },
           'Cancel'
         )
@@ -60,19 +75,30 @@ class DemoApp {
       ),
       h(
         '.text-center',
+        h(
+          'button',
+          {
+            onclick: () => this._modal1.open()
+          },
+          'Greet me'
+        )
+      ),
+      h(
+        '.text-center',
         h('p', 'Your favourite animal is: ', this._favourite),
         h(
           'button',
           {
             onclick: () => {
               this._previousFavourite = this._favourite
-              this._modal.toggle()
+              this._modal2.open()
             }
           },
           'Choose an animal'
         )
       ),
-      this._modal
+      this._modal1,
+      this._modal2
     )
   }
 }
