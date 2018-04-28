@@ -30,7 +30,8 @@ class DemoApp {
     this._choosing = false
     this._modal = new HyperdomModal(
       {
-        openBinding: [this, '_choosing']
+        openBinding: [this, '_choosing'],
+        options: { class: 'modal' }
       },
       h(
         '.modal-content',
@@ -100,10 +101,10 @@ You can add styles to override the defaults and style the content passed in to y
 
 ## Options
 
-|     Name      |   Type    |  Default  | Description                                                         |
-| :-----------: | :-------: | :-------: | :------------------------------------------------------------------ |
-| `openBinding` | `binding` |  `none`   | A hyperdom binding that determines whether the modal window is open |
-|  `rootClass`  | `String`  | `'modal'` | Override the default class on the root modal element                |
+|     Name      |   Type    | Default | Description                                                                       |
+| :-----------: | :-------: | :-----: | :-------------------------------------------------------------------------------- |
+| `openBinding` | `binding` | `none`  | A hyperdom binding that determines whether the modal window is open               |
+|   `options`   | `object`  | `none`  | Any options such as attributes or event handlers passed to the `<dialog>` element |
 
 ## More About `<dialog>`
 

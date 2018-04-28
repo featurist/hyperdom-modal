@@ -17,25 +17,24 @@ module.exports = class Modal {
   onrender(element) {
     const dialogPolyfill = require('dialog-polyfill')
     dialogPolyfill.registerDialog(element)
+    showModalOrClose(this, element)
+  }
+
+  onupdate(element) {
+    showModalOrClose(this, element)
   }
 
   render() {
-    const open = this._openBinding.get()
-    const options = open
-      ? optionsWithOpenAttribute(this._options)
-      : this._options
-    return h('dialog', options, this._content)
+    return h('dialog', this._options, this._content)
   }
 }
 
-function optionsWithOpenAttribute(options) {
-  const merged = {}
-  for (const key in options) {
-    if (Object.prototype.hasOwnProperty.apply(options, key)) {
-      merged[key] = options[key]
-    }
+function showModalOrClose(modal, element) {
+  const wasOpen = modal._isOpen
+  modal._isOpen = modal._openBinding.get()
+  if (modal._isOpen && !wasOpen) {
+    element.showModal()
+  } else if (wasOpen && !modal._isOpen) {
+    element.close()
   }
-  merged.attributes = merged.attributes || {}
-  merged.attributes.open = true
-  return merged
 }

@@ -8,7 +8,8 @@ class DemoApp {
     this._choosing = false
     this._modal = new HyperdomModal(
       {
-        openBinding: [this, '_choosing']
+        openBinding: [this, '_choosing'],
+        options: { class: 'modal' }
       },
       h(
         '.modal-content',
