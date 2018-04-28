@@ -24,54 +24,72 @@ const hyperdom = require('hyperdom')
 const h = hyperdom.html
 const HyperdomModal = require('hyperdom-modal')
 
-class YourApp {
+class DemoApp {
   constructor() {
-    this.modalActive = false
-  }
-
-  activateModal() {
-    this.modalActive = true
-  }
-
-  deactivateModal() {
-    this.modalActive = false
-  }
-
-  render() {
-    return h(
-      'div',
+    this._favourite = 'undecided'
+    this._choosing = false
+    this._modal = new HyperdomModal(
+      {
+        openBinding: [this, '_choosing']
+      },
       h(
-        'button',
-        {
-          type: 'button',
-          onclick: () => this.activateModal()
-        },
-        'Open Modal'
-      ),
-      new HyperdomModal(
-        {
-          showModal: this.modalActive,
-          onExit: this.deactivateModal
-        },
+        '.modal-content',
+        h('h2.modal-heading', 'Choose your favourite!'),
+        h('p', 'What is your favourite animal?'),
         h(
-          'div',
-          h('h2', 'Modal Heading'),
-          h('p', 'This is modal content.'),
+          'p',
           h(
-            'button',
-            {
-              type: 'button',
-              onclick: () => this.deactivateModal()
-            },
-            'Close'
+            'select',
+            { binding: [this, '_favourite'] },
+            h('option', 'undecided'),
+            h('option', 'cat'),
+            h('option', 'dog')
           )
+        ),
+        h(
+          'button',
+          {
+            onclick: () => this._modal.toggle()
+          },
+          'Confirm'
+        ),
+        h(
+          'button',
+          {
+            onclick: () => {
+              this._favourite = this._previousFavourite
+              this._modal.toggle()
+            }
+          },
+          'Cancel'
         )
       )
     )
   }
+
+  render() {
+    return h(
+      'main.container',
+      h(
+        '.text-center',
+        h('p', 'Your favourite animal is: ', this._favourite),
+        h(
+          'button',
+          {
+            onclick: () => {
+              this._previousFavourite = this._favourite
+              this._modal.toggle()
+            }
+          },
+          'Choose an animal'
+        )
+      ),
+      this._modal
+    )
+  }
 }
 
-hyperdom.append(document.getElementById('root'), new YourApp())
+hyperdom.append(document.getElementById('root'), new DemoApp())
 ```
 
 ### CSS
@@ -82,11 +100,10 @@ You can add styles to override the defaults and style the content passed in to y
 
 ## Options
 
-|    Name     |    Type    |   Default   | Description                                          |
-| :---------: | :--------: | :---------: | :--------------------------------------------------- |
-| `showModal` | `Boolean`  |   `false`   | Trigger the modal displaying on the page             |
-|  `onExit`   | `Function` | `undefined` | Function to call when user closes modal              |
-| `rootClass` |  `String`  |  `'modal'`  | Override the default class on the root modal element |
+|     Name      |   Type    |  Default  | Description                                                         |
+| :-----------: | :-------: | :-------: | :------------------------------------------------------------------ |
+| `openBinding` | `binding` |  `none`   | A hyperdom binding that determines whether the modal window is open |
+|  `rootClass`  | `String`  | `'modal'` | Override the default class on the root modal element                |
 
 ## More About `<dialog>`
 

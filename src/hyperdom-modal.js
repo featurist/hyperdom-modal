@@ -4,39 +4,38 @@ const hyperdom = require('hyperdom')
 const h = hyperdom.html
 
 module.exports = class Modal {
-  constructor({ showModal = false, onExit, rootClass = 'modal' }, content) {
-    this._showModal = showModal
-    this._onExit = onExit
-    this._rootClass = rootClass
+  constructor({ openBinding, options }, content) {
+    this._openBinding = hyperdom.binding(openBinding)
+    this._options = options
     this._content = content
   }
 
-  onrender(element) {
-    const isOpen = element.hasAttribute('open')
+  toggle() {
+    this._openBinding.set(!this._openBinding.get())
+  }
 
+  onrender(element) {
     const dialogPolyfill = require('dialog-polyfill')
     dialogPolyfill.registerDialog(element)
-
-    if (!isOpen && this._showModal) {
-      element.showModal()
-    }
-    if (isOpen && !this._showModal) {
-      element.close()
-    }
-
-    element.addEventListener('cancel', () => {
-      this._onExit()
-    })
-
-    element.addEventListener('click', event => {
-      if (event.target === element && element.hasAttribute('open')) {
-        element.close()
-        this._onExit()
-      }
-    })
   }
 
   render() {
-    return h('dialog', { class: this._rootClass }, this._content)
+    const open = this._openBinding.get()
+    const options = open
+      ? optionsWithOpenAttribute(this._options)
+      : this._options
+    return h('dialog', options, this._content)
   }
+}
+
+function optionsWithOpenAttribute(options) {
+  const merged = {}
+  for (const key in options) {
+    if (Object.prototype.hasOwnProperty.apply(options, key)) {
+      merged[key] = options[key]
+    }
+  }
+  merged.attributes = merged.attributes || {}
+  merged.attributes.open = true
+  return merged
 }

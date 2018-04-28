@@ -4,15 +4,45 @@ const HyperdomModal = require('../src/hyperdom-modal')
 
 class DemoApp {
   constructor() {
-    this.modalActive = false
-  }
-
-  activateModal() {
-    this.modalActive = true
-  }
-
-  deactivateModal() {
-    this.modalActive = false
+    this._favourite = 'undecided'
+    this._choosing = false
+    this._modal = new HyperdomModal(
+      {
+        openBinding: [this, '_choosing']
+      },
+      h(
+        '.modal-content',
+        h('h2.modal-heading', 'Choose your favourite!'),
+        h('p', 'What is your favourite animal?'),
+        h(
+          'p',
+          h(
+            'select',
+            { binding: [this, '_favourite'] },
+            h('option', 'undecided'),
+            h('option', 'cat'),
+            h('option', 'dog')
+          )
+        ),
+        h(
+          'button',
+          {
+            onclick: () => this._modal.toggle()
+          },
+          'Confirm'
+        ),
+        h(
+          'button',
+          {
+            onclick: () => {
+              this._favourite = this._previousFavourite
+              this._modal.toggle()
+            }
+          },
+          'Cancel'
+        )
+      )
+    )
   }
 
   render() {
@@ -29,34 +59,19 @@ class DemoApp {
       ),
       h(
         '.text-center',
+        h('p', 'Your favourite animal is: ', this._favourite),
         h(
-          'button.button',
+          'button',
           {
-            type: 'button',
-            onclick: () => this.activateModal()
+            onclick: () => {
+              this._previousFavourite = this._favourite
+              this._modal.toggle()
+            }
           },
-          'Open Modal'
+          'Choose an animal'
         )
       ),
-      new HyperdomModal(
-        {
-          showModal: this.modalActive,
-          onExit: this.deactivateModal
-        },
-        h(
-          '.modal-content',
-          h('h2.modal-heading', 'Modal Heading'),
-          h('p', 'This is a modal with some custom styling.'),
-          h(
-            'button.button',
-            {
-              type: 'button',
-              onclick: () => this.deactivateModal()
-            },
-            'Close Modal'
-          )
-        )
-      )
+      this._modal
     )
   }
 }
