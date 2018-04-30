@@ -55,10 +55,6 @@ module.exports = class Modal {
     element.removeEventListener('close', this._closeHandler)
     element.addEventListener('close', this._closeHandler)
     showModalOrClose(this, element)
-
-    element.removeEventListener('click', event => {
-      this.outsideClickHandler(event, element)
-    })
     element.addEventListener('click', event => {
       this.outsideClickHandler(event, element)
     })
