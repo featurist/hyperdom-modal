@@ -11,40 +11,51 @@ var HyperdomModal = require('../src/hyperdom-modal');
 
 var DemoApp = function () {
   function DemoApp() {
+    var _this = this;
+
     _classCallCheck(this, DemoApp);
 
-    this.modalActive = false;
+    this._favourite = 'undecided';
+    this._choosing = false;
+
+    this._modal1 = new HyperdomModal(h('.modal-content', h('h2.modal-heading', 'Hello!'), h('button', {
+      onclick: function onclick() {
+        return _this._modal1.close();
+      }
+    }, 'Goodbye!')));
+
+    this._modal2 = new HyperdomModal({
+      openBinding: [this, '_choosing'],
+      onCancel: function onCancel() {
+        _this._favourite = _this._previousFavourite;
+      },
+      dialogOptions: { class: 'modal' }
+    }, h('.modal-content', h('h2.modal-heading', 'Choose your favourite!'), h('p', 'What is your favourite animal?'), h('p', h('select', { binding: [this, '_favourite'] }, h('option', 'undecided'), h('option', 'cat'), h('option', 'dog'))), h('button', {
+      onclick: function onclick() {
+        return _this._modal2.close();
+      }
+    }, 'Confirm'), h('button', {
+      onclick: function onclick() {
+        return _this._modal2.cancel();
+      }
+    }, 'Cancel')));
   }
 
   _createClass(DemoApp, [{
-    key: 'activateModal',
-    value: function activateModal() {
-      this.modalActive = true;
-    }
-  }, {
-    key: 'deactivateModal',
-    value: function deactivateModal() {
-      this.modalActive = false;
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var _this = this;
+      var _this2 = this;
 
-      return h('main.container', h('h1.text-center', h('a', { href: 'https://github.com/featurist/hyperdom-modal' }, 'Hyperdom Modal'), ' Demo'), h('.text-center', h('button.button', {
-        type: 'button',
+      return h('main.container', h('h1.text-center', h('a', { href: 'https://github.com/featurist/hyperdom-modal' }, 'Hyperdom Modal'), ' Demo'), h('.text-center', h('button', {
         onclick: function onclick() {
-          return _this.activateModal();
+          return _this2._modal1.open();
         }
-      }, 'Open Modal')), new HyperdomModal({
-        showModal: this.modalActive,
-        onExit: this.deactivateModal
-      }, h('.modal-content', h('h2.modal-heading', 'Modal Heading'), h('p', 'This is a modal with some custom styling.'), h('button.button', {
-        type: 'button',
+      }, 'Greet me')), h('.text-center', h('p', 'Your favourite animal is: ', this._favourite), h('button', {
         onclick: function onclick() {
-          return _this.deactivateModal();
+          _this2._previousFavourite = _this2._favourite;
+          _this2._modal2.open();
         }
-      }, 'Close Modal'))));
+      }, 'Choose an animal')), this._modal1, this._modal2);
     }
   }]);
 
@@ -3875,6 +3886,8 @@ function isArray(obj) {
 },{}],57:[function(require,module,exports){
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3883,57 +3896,92 @@ var hyperdom = require('hyperdom');
 var h = hyperdom.html;
 
 module.exports = function () {
-  function Modal(_ref, content) {
-    var _ref$showModal = _ref.showModal,
-        showModal = _ref$showModal === undefined ? false : _ref$showModal,
-        onExit = _ref.onExit,
-        _ref$rootClass = _ref.rootClass,
-        rootClass = _ref$rootClass === undefined ? 'modal' : _ref$rootClass;
+  function Modal() {
+    var _this = this;
 
     _classCallCheck(this, Modal);
 
-    this._showModal = showModal;
-    this._onExit = onExit;
-    this._rootClass = rootClass;
-    this._content = content;
+    var firstArgumentIsOptions = _typeof(arguments[0]) === 'object' && typeof arguments[0].tagName === 'undefined';
+
+    var _ref = firstArgumentIsOptions ? arguments[0] : {},
+        openBinding = _ref.openBinding,
+        dialogOptions = _ref.dialogOptions,
+        onCancel = _ref.onCancel;
+
+    this._openBinding = hyperdom.binding(openBinding || [this, '_binding']);
+    this._dialogOptions = dialogOptions;
+    this._onCancel = onCancel || function () {};
+    this._content = [].slice.call(arguments, firstArgumentIsOptions ? 1 : 0);
+
+    this._closeHandler = function () {
+      if (_this._isProgrammaticClose) {
+        delete _this._isProgrammaticClose;
+      } else {
+        _this._onCancel();
+        _this._isOpen = false;
+        _this._openBinding.set(false);
+        _this.refreshImmediately();
+      }
+    };
   }
 
   _createClass(Modal, [{
+    key: 'outsideClickHandler',
+    value: function outsideClickHandler(event, element) {
+      if (event.target === element && this._isOpen) {
+        element.close();
+      }
+    }
+  }, {
+    key: 'open',
+    value: function open() {
+      this._openBinding.set(true);
+    }
+  }, {
+    key: 'close',
+    value: function close() {
+      this._isProgrammaticClose = true;
+      this._openBinding.set(false);
+    }
+  }, {
+    key: 'cancel',
+    value: function cancel() {
+      this._isProgrammaticClose = true;
+      this._onCancel();
+      this._openBinding.set(false);
+    }
+  }, {
     key: 'onrender',
     value: function onrender(element) {
-      var _this = this;
-
-      var isOpen = element.hasAttribute('open');
+      var _this2 = this;
 
       var dialogPolyfill = require('dialog-polyfill');
       dialogPolyfill.registerDialog(element);
-
-      if (!isOpen && this._showModal) {
-        element.showModal();
-      }
-      if (isOpen && !this._showModal) {
-        element.close();
-      }
-
-      element.addEventListener('cancel', function () {
-        _this._onExit();
-      });
-
+      element.removeEventListener('close', this._closeHandler);
+      element.addEventListener('close', this._closeHandler);
+      showModalOrClose(this, element);
       element.addEventListener('click', function (event) {
-        if (event.target === element && element.hasAttribute('open')) {
-          element.close();
-          _this._onExit();
-        }
+        _this2.outsideClickHandler(event, element);
       });
     }
   }, {
     key: 'render',
     value: function render() {
-      return h('dialog', { class: this._rootClass }, this._content);
+      return h('dialog', this._dialogOptions, this._content);
     }
   }]);
 
   return Modal;
 }();
+
+function showModalOrClose(modal, element) {
+  var wasOpen = modal._isOpen;
+  modal._isOpen = modal._openBinding.get();
+  if (modal._isOpen && !wasOpen) {
+    element.showModal();
+  } else if (wasOpen && !modal._isOpen) {
+    element.close();
+  }
+}
 
 },{"dialog-polyfill":4,"hyperdom":12}]},{},[1]);
