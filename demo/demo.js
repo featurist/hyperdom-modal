@@ -104,11 +104,11 @@ class DemoApp {
           'button',
           {
             onclick: () => {
-              this._modalTitle = 'Brand New Title'
+              this._modalTitle = 'Brand New World'
               this._modal1.open()
             }
           },
-          'Set a value and open modal'
+          'Set a new title and open modal'
         )
       ),
       this._modal1,
