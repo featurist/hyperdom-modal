@@ -1,3 +1,9 @@
+# 1.0.0 / 2018-04-30
+
+* Switch to using `openBinding` hyperdom binding instead of `showModal` boolean
+* Allow passing any options to `<dialog>` instead of just class name
+* Rename `onExit` to `onCancel`
+
 # 0.2.4 / 2018-04-25
 
 * Fix `window is undefined` error when loading outside of browser DOM
