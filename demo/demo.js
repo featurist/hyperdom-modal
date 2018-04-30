@@ -8,7 +8,7 @@ class DemoApp {
     this._choosing = false
     this._modalTitle = 'World'
 
-    this._modal1 = new HyperdomModal(
+    this._modal1 = new HyperdomModal(() =>
       h(
         '.modal-content',
         h('h2.modal-heading', `Hello ${this._modalTitle}!`),

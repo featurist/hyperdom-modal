@@ -61,7 +61,11 @@ module.exports = class Modal {
   }
 
   render() {
-    return h('dialog', this._dialogOptions, this._content)
+    return h(
+      'dialog',
+      this._dialogOptions,
+      this._content.map(c => (typeof c === 'function' ? c() : c))
+    )
   }
 }
 
