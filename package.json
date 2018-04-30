@@ -1,14 +1,14 @@
 {
   "name": "hyperdom-modal",
-  "version": "0.2.4",
+  "version": "1.0.0",
   "description": "Accessible modal built with Hyperdom that uses <dialog> element.",
   "homepage": "https://github.com/featurist/hyperdom-modal#readme",
   "bugs": {
     "url": "https://github.com/featurist/hyperdom-modal/issues"
   },
   "author": {
-    "name": "Alec Rust",
-    "email": "alec@featurist.co.uk"
+    "name": "Featurist",
+    "email": "enquiries@featurist.co.uk"
   },
   "main": "dist/hyperdom-modal.js",
   "keywords": [
@@ -44,11 +44,11 @@
     "budo": "^11.2.0",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
-    "eslint-config-xo": "^0.20.1",
+    "eslint-config-xo": "^0.22.0",
     "eslint-plugin-prettier": "^2.6.0",
     "husky": "^0.14.3",
     "hyperdom": "^0.11.0",
-    "lint-staged": "^7.0.4",
+    "lint-staged": "^7.0.5",
     "nsp": "^3.2.1",
     "prettier": "^1.12.1",
     "stylelint": "^9.2.0",
