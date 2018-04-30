@@ -28,6 +28,12 @@ module.exports = class Modal {
     }
   }
 
+  outsideClickHandler(event, element) {
+    if (event.target === element && this._isOpen) {
+      element.close()
+    }
+  }
+
   open() {
     this._openBinding.set(true)
   }
@@ -49,11 +55,8 @@ module.exports = class Modal {
     element.removeEventListener('close', this._closeHandler)
     element.addEventListener('close', this._closeHandler)
     showModalOrClose(this, element)
-
     element.addEventListener('click', event => {
-      if (event.target === element && element.hasAttribute('open')) {
-        element.close()
-      }
+      this.outsideClickHandler(event, element)
     })
   }
 
