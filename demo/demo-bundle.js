@@ -17,12 +17,15 @@ var DemoApp = function () {
 
     this._favourite = 'undecided';
     this._choosing = false;
+    this._title = 'World';
 
-    this._modal1 = new HyperdomModal(h('.modal-content', h('h2.modal-heading', 'Hello!'), h('button', {
-      onclick: function onclick() {
-        return _this._modal1.close();
-      }
-    }, 'Goodbye!')));
+    this._modal1 = new HyperdomModal(function () {
+      return h('.modal-content', h('h2.modal-heading', 'Hello ' + _this._title + '!'), h('button', {
+        onclick: function onclick() {
+          return _this._modal1.close();
+        }
+      }, 'Goodbye!'));
+    });
 
     this._modal2 = new HyperdomModal({
       openBinding: [this, '_choosing'],
@@ -55,7 +58,12 @@ var DemoApp = function () {
           _this2._previousFavourite = _this2._favourite;
           _this2._modal2.open();
         }
-      }, 'Choose an animal')), this._modal1, this._modal2);
+      }, 'Choose an animal')), h('.text-center', h('button', {
+        onclick: function onclick() {
+          _this2._title = 'Brand New World';
+          _this2._modal1.open();
+        }
+      }, 'Update title and open modal')), this._modal1, this._modal2);
     }
   }]);
 
@@ -3967,7 +3975,9 @@ module.exports = function () {
   }, {
     key: 'render',
     value: function render() {
-      return h('dialog', this._dialogOptions, this._content);
+      return h('dialog', this._dialogOptions, this._content.map(function (c) {
+        return typeof c === 'function' ? c() : c;
+      }));
     }
   }]);
 
