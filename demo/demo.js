@@ -6,12 +6,12 @@ class DemoApp {
   constructor() {
     this._favourite = 'undecided'
     this._choosing = false
-    this._modalTitle = 'World'
+    this._title = 'World'
 
     this._modal1 = new HyperdomModal(() =>
       h(
         '.modal-content',
-        h('h2.modal-heading', `Hello ${this._modalTitle}!`),
+        h('h2.modal-heading', `Hello ${this._title}!`),
         h(
           'button',
           {
@@ -104,11 +104,11 @@ class DemoApp {
           'button',
           {
             onclick: () => {
-              this._modalTitle = 'Brand New World'
+              this._title = 'Brand New World'
               this._modal1.open()
             }
           },
-          'Set a new title and open modal'
+          'Update title and open modal'
         )
       ),
       this._modal1,
