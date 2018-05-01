@@ -1,3 +1,7 @@
+# 1.1.1 / 2018-05-01
+
+* Fix missing bundles changes from 1.1.0
+
 # 1.1.0 / 2018-05-01
 
 * Add support for passing function instead of configuration object for dynamic content
