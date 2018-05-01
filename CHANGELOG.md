@@ -1,3 +1,7 @@
+# 1.1.0 / 2018-04-31
+
+* Add support for passing function instead of configuration object for dynamic content
+
 # 1.0.0 / 2018-04-30
 
 * Switch to using `openBinding` hyperdom binding instead of `showModal` boolean
