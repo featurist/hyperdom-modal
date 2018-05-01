@@ -133,6 +133,8 @@ class DemoApp {
 hyperdom.append(document.getElementById('root'), new DemoApp())
 ```
 
+**Note:** A function can be passed like first example for dynamic content, or just a configuration object like second example.
+
 ### CSS
 
 Supported browsers provide their own default styles for the modal and backdrop. **You must include the polyfill stylesheet in your app for unsupported browsers** to achieve the same default behaviour. You can include it from this package at `node_modules/hyperdom-modal/dist/dialog-polyfill.css`
