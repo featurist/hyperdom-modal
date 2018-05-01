@@ -1,4 +1,4 @@
-# 1.1.0 / 2018-04-31
+# 1.1.0 / 2018-05-01
 
 * Add support for passing function instead of configuration object for dynamic content
 
