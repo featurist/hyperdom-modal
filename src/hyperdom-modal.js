@@ -4,30 +4,6 @@ const hyperdom = require('hyperdom')
 const h = hyperdom.html
 
 module.exports = class Modal {
-  constructor() {
-    const firstArgumentIsOptions =
-      typeof arguments[0] === 'object' &&
-      typeof arguments[0].tagName === 'undefined'
-    const { openBinding, dialogOptions, onCancel } = firstArgumentIsOptions
-      ? arguments[0]
-      : {}
-    this._openBinding = hyperdom.binding(openBinding || [this, '_binding'])
-    this._dialogOptions = dialogOptions
-    this._onCancel = onCancel || (() => {})
-    this._content = [].slice.call(arguments, firstArgumentIsOptions ? 1 : 0)
-
-    this._closeHandler = () => {
-      if (this._isProgrammaticClose) {
-        delete this._isProgrammaticClose
-      } else {
-        this._onCancel()
-        this._isOpen = false
-        this._openBinding.set(false)
-        this.refreshImmediately()
-      }
-    }
-  }
-
   outsideClickHandler(event, element) {
     if (event.target === element && this._isOpen) {
       element.close()
@@ -49,23 +25,41 @@ module.exports = class Modal {
     this._openBinding.set(false)
   }
 
-  onrender(element) {
-    const dialogPolyfill = require('dialog-polyfill')
-    dialogPolyfill.registerDialog(element)
-    element.removeEventListener('close', this._closeHandler)
-    element.addEventListener('close', this._closeHandler)
-    showModalOrClose(this, element)
-    element.addEventListener('click', event => {
-      this.outsideClickHandler(event, element)
-    })
-  }
+  render(options) {
+    const hasOptions = options && options.constructor === Object
+    var content = Array.prototype.slice.call(arguments, hasOptions ? 1 : 0)
+    const { openBinding, dialogOptions, onCancel } = hasOptions ? options : {}
+    this._openBinding = hyperdom.binding(openBinding || [this, '_binding'])
+    this._onCancel = onCancel || (() => {})
 
-  render() {
-    return h(
-      'dialog',
-      this._dialogOptions,
-      this._content.map(c => (typeof c === 'function' ? c() : c))
-    )
+    const closeHandler = () => {
+      if (this._isProgrammaticClose) {
+        delete this._isProgrammaticClose
+      } else {
+        this._onCancel()
+        this._isOpen = false
+        this._openBinding.set(false)
+      }
+    }
+
+    return {
+      onadd: element => {
+        const dialogPolyfill = require('dialog-polyfill')
+        dialogPolyfill.registerDialog(element)
+        element.addEventListener('close', closeHandler)
+        element.addEventListener('click', event => {
+          this.outsideClickHandler(event, element)
+        })
+      },
+
+      onrender: element => {
+        showModalOrClose(this, element)
+      },
+
+      render: () => {
+        return h('dialog', dialogOptions, content)
+      }
+    }
   }
 }
 
