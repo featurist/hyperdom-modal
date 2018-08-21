@@ -1,3 +1,7 @@
+# 2.0.1 / 2018-05-02
+
+- Bump dependencies
+
 # 2.0.0 / 2018-05-02
 
 - Rewrite to require calling render method instead of passing content to constructor
