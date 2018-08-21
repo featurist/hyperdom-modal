@@ -1,48 +1,48 @@
 # 2.0.0 / 2018-05-02
 
-* Rewrite to require calling render method instead of passing content to constructor
+- Rewrite to require calling render method instead of passing content to constructor
 
 # 1.1.1 / 2018-05-01
 
-* Fix missing bundles changes from 1.1.0
+- Fix missing bundles changes from 1.1.0
 
 # 1.1.0 / 2018-05-01
 
-* Add support for passing function instead of configuration object for dynamic content
+- Add support for passing function instead of configuration object for dynamic content
 
 # 1.0.0 / 2018-04-30
 
-* Switch to using `openBinding` hyperdom binding instead of `showModal` boolean
-* Allow passing any options to `<dialog>` instead of just class name
-* Rename `onExit` to `onCancel`
+- Switch to using `openBinding` hyperdom binding instead of `showModal` boolean
+- Allow passing any options to `<dialog>` instead of just class name
+- Rename `onExit` to `onCancel`
 
 # 0.2.4 / 2018-04-25
 
-* Fix `window is undefined` error when loading outside of browser DOM
+- Fix `window is undefined` error when loading outside of browser DOM
 
 # 0.2.3 / 2018-02-20
 
-* Check for `open` attribute before showing/hiding modal
+- Check for `open` attribute before showing/hiding modal
 
 # 0.2.2 / 2018-02-18
 
-* Fix modal not closing in some cases
+- Fix modal not closing in some cases
 
 # 0.2.1 / 2018-02-18
 
-* Improve handling of modal re-render when already open
+- Improve handling of modal re-render when already open
 
 # 0.2.0 / 2018-02-18
 
-* Add `onExit` option
+- Add `onExit` option
 
 # 0.1.0 / 2018-02-18
 
-* Initial public release
-* Refactor how modal padding is applied in demo to avoided unintended closes
-* Add modal slide in example to demo styles
-* Include polyfill stylesheet in `/dist` to ease integration
+- Initial public release
+- Refactor how modal padding is applied in demo to avoided unintended closes
+- Add modal slide in example to demo styles
+- Include polyfill stylesheet in `/dist` to ease integration
 
 # 0.0.1 / 2018-02-15
 
-* Initial test release
+- Initial test release
