@@ -1,6 +1,6 @@
 {
   "name": "hyperdom-modal",
-  "version": "1.1.0",
+  "version": "2.0.1",
   "description": "Accessible modal built with Hyperdom that uses <dialog> element.",
   "homepage": "https://github.com/featurist/hyperdom-modal#readme",
   "bugs": {
@@ -31,27 +31,27 @@
     "prepublish": "nsp check"
   },
   "dependencies": {
-    "dialog-polyfill": "^0.4.9"
+    "dialog-polyfill": "^0.4.10"
   },
   "peerDependencies": {
-    "hyperdom": "^0.11.0"
+    "hyperdom": "^0.12.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
+    "babel-preset-env": "^1.7.0",
     "babelify": "^8.0.0",
-    "browserify": "^16.2.0",
-    "budo": "^11.2.0",
-    "eslint": "^4.19.1",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-config-xo": "^0.22.0",
-    "eslint-plugin-prettier": "^2.6.0",
+    "browserify": "^16.2.2",
+    "budo": "^11.3.2",
+    "eslint": "^5.4.0",
+    "eslint-config-prettier": "^3.0.1",
+    "eslint-config-xo": "^0.24.1",
+    "eslint-plugin-prettier": "^2.6.2",
     "husky": "^0.14.3",
-    "hyperdom": "^0.11.0",
-    "lint-staged": "^7.0.5",
+    "hyperdom": "^0.12.0",
+    "lint-staged": "^7.2.2",
     "nsp": "^3.2.1",
-    "prettier": "^1.12.1",
-    "stylelint": "^9.2.0",
+    "prettier": "^1.14.2",
+    "stylelint": "^9.5.0",
     "stylelint-config-standard": "^18.2.0"
   },
   "lint-staged": {

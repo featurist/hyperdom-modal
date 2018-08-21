@@ -8,58 +8,8 @@ class DemoApp {
     this._choosing = false
     this._title = 'World'
 
-    this._modal1 = new HyperdomModal(() =>
-      h(
-        '.modal-content',
-        h('h2.modal-heading', `Hello ${this._title}!`),
-        h(
-          'button',
-          {
-            onclick: () => this._modal1.close()
-          },
-          'Goodbye!'
-        )
-      )
-    )
-
-    this._modal2 = new HyperdomModal(
-      {
-        openBinding: [this, '_choosing'],
-        onCancel: () => {
-          this._favourite = this._previousFavourite
-        },
-        dialogOptions: { class: 'modal' }
-      },
-      h(
-        '.modal-content',
-        h('h2.modal-heading', 'Choose your favourite!'),
-        h('p', 'What is your favourite animal?'),
-        h(
-          'p',
-          h(
-            'select',
-            { binding: [this, '_favourite'] },
-            h('option', 'undecided'),
-            h('option', 'cat'),
-            h('option', 'dog')
-          )
-        ),
-        h(
-          'button',
-          {
-            onclick: () => this._modal2.close()
-          },
-          'Confirm'
-        ),
-        h(
-          'button',
-          {
-            onclick: () => this._modal2.cancel()
-          },
-          'Cancel'
-        )
-      )
-    )
+    this._modal1 = new HyperdomModal()
+    this._modal2 = new HyperdomModal()
   }
 
   render() {
@@ -111,8 +61,57 @@ class DemoApp {
           'Update title and open modal'
         )
       ),
-      this._modal1,
-      this._modal2
+      this._modal1.render(
+        h(
+          '.modal-content',
+          h('h2.modal-heading', `Hello ${this._title}!`),
+          h(
+            'button',
+            {
+              onclick: () => this._modal1.close()
+            },
+            'Goodbye!'
+          )
+        )
+      ),
+      this._modal2.render(
+        {
+          openBinding: [this, '_choosing'],
+          onCancel: () => {
+            this._favourite = this._previousFavourite
+          },
+          dialogOptions: { class: 'modal' }
+        },
+        h(
+          '.modal-content',
+          h('h2.modal-heading', 'Choose your favourite!'),
+          h('p', 'What is your favourite animal?'),
+          h(
+            'p',
+            h(
+              'select',
+              { binding: [this, '_favourite'] },
+              h('option', 'undecided'),
+              h('option', 'cat'),
+              h('option', 'dog')
+            )
+          ),
+          h(
+            'button',
+            {
+              onclick: () => this._modal2.close()
+            },
+            'Confirm'
+          ),
+          h(
+            'button',
+            {
+              onclick: () => this._modal2.cancel()
+            },
+            'Cancel'
+          )
+        )
+      )
     )
   }
 }
