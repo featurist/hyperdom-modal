@@ -11,59 +11,54 @@ var HyperdomModal = require('../src/hyperdom-modal');
 
 var DemoApp = function () {
   function DemoApp() {
-    var _this = this;
-
     _classCallCheck(this, DemoApp);
 
     this._favourite = 'undecided';
     this._choosing = false;
     this._title = 'World';
 
-    this._modal1 = new HyperdomModal(function () {
-      return h('.modal-content', h('h2.modal-heading', 'Hello ' + _this._title + '!'), h('button', {
-        onclick: function onclick() {
-          return _this._modal1.close();
-        }
-      }, 'Goodbye!'));
-    });
-
-    this._modal2 = new HyperdomModal({
-      openBinding: [this, '_choosing'],
-      onCancel: function onCancel() {
-        _this._favourite = _this._previousFavourite;
-      },
-      dialogOptions: { class: 'modal' }
-    }, h('.modal-content', h('h2.modal-heading', 'Choose your favourite!'), h('p', 'What is your favourite animal?'), h('p', h('select', { binding: [this, '_favourite'] }, h('option', 'undecided'), h('option', 'cat'), h('option', 'dog'))), h('button', {
-      onclick: function onclick() {
-        return _this._modal2.close();
-      }
-    }, 'Confirm'), h('button', {
-      onclick: function onclick() {
-        return _this._modal2.cancel();
-      }
-    }, 'Cancel')));
+    this._modal1 = new HyperdomModal();
+    this._modal2 = new HyperdomModal();
   }
 
   _createClass(DemoApp, [{
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this = this;
 
       return h('main.container', h('h1.text-center', h('a', { href: 'https://github.com/featurist/hyperdom-modal' }, 'Hyperdom Modal'), ' Demo'), h('.text-center', h('button', {
         onclick: function onclick() {
-          return _this2._modal1.open();
+          return _this._modal1.open();
         }
       }, 'Greet me')), h('.text-center', h('p', 'Your favourite animal is: ', this._favourite), h('button', {
         onclick: function onclick() {
-          _this2._previousFavourite = _this2._favourite;
-          _this2._modal2.open();
+          _this._previousFavourite = _this._favourite;
+          _this._modal2.open();
         }
       }, 'Choose an animal')), h('.text-center', h('button', {
         onclick: function onclick() {
-          _this2._title = 'Brand New World';
-          _this2._modal1.open();
+          _this._title = 'Brand New World';
+          _this._modal1.open();
         }
-      }, 'Update title and open modal')), this._modal1, this._modal2);
+      }, 'Update title and open modal')), this._modal1.render(h('.modal-content', h('h2.modal-heading', 'Hello ' + this._title + '!'), h('button', {
+        onclick: function onclick() {
+          return _this._modal1.close();
+        }
+      }, 'Goodbye!'))), this._modal2.render({
+        openBinding: [this, '_choosing'],
+        onCancel: function onCancel() {
+          _this._favourite = _this._previousFavourite;
+        },
+        dialogOptions: { class: 'modal' }
+      }, h('.modal-content', h('h2.modal-heading', 'Choose your favourite!'), h('p', 'What is your favourite animal?'), h('p', h('select', { binding: [this, '_favourite'] }, h('option', 'undecided'), h('option', 'cat'), h('option', 'dog'))), h('button', {
+        onclick: function onclick() {
+          return _this._modal2.close();
+        }
+      }, 'Confirm'), h('button', {
+        onclick: function onclick() {
+          return _this._modal2.cancel();
+        }
+      }, 'Cancel'))));
     }
   }]);
 
@@ -823,7 +818,8 @@ module.exports = (function split(undef) {
     if (testForm.method !== 'dialog') {
       var methodDescriptor = Object.getOwnPropertyDescriptor(HTMLFormElement.prototype, 'method');
       if (methodDescriptor) {
-        // TODO: older iOS and older PhantomJS fail to return the descriptor here
+        // nb. Some older iOS and older PhantomJS fail to return the descriptor. Don't do anything
+        // and don't bother to update the element.
         var realGet = methodDescriptor.get;
         methodDescriptor.get = function() {
           if (isFormMethodDialog(this)) {
@@ -873,13 +869,13 @@ module.exports = (function split(undef) {
      * submit event and give us a chance to respond.
      */
     var nativeFormSubmit = HTMLFormElement.prototype.submit;
-    function replacementFormSubmit() {
+    var replacementFormSubmit = function () {
       if (!isFormMethodDialog(this)) {
         return nativeFormSubmit.call(this);
       }
       var dialog = findNearestDialog(this);
       dialog && dialog.close();
-    }
+    };
     HTMLFormElement.prototype.submit = replacementFormSubmit;
 
     /**
@@ -1195,26 +1191,30 @@ function afterUpdate (model, element, oldElement) {
 }
 
 Component.prototype.update = function (previous) {
-  var self = this
-
-  if (this.isViewComponent) {
-    var keys = Object.keys(this.model)
-    for (var n = 0; n < keys.length; n++) {
-      var key = keys[n]
-      previous.model[key] = self.model[key]
-    }
-    this.model = previous.model
-  }
-
-  this.component = previous.component
-  var oldElement = this.component.element
-
-  var element = this.component.update(this.render(oldElement))
-
-  if (self.model.detached) {
-    return document.createTextNode('')
+  if (previous.key !== this.key || this.model.constructor !== previous.model.constructor) {
+    return this.init()
   } else {
-    return element
+    var self = this
+
+    if (this.isViewComponent) {
+      var keys = Object.keys(this.model)
+      for (var n = 0; n < keys.length; n++) {
+        var key = keys[n]
+        previous.model[key] = self.model[key]
+      }
+      this.model = previous.model
+    }
+
+    this.component = previous.component
+    var oldElement = this.component.element
+
+    var element = this.component.update(this.render(oldElement))
+
+    if (self.model.detached) {
+      return document.createTextNode('')
+    } else {
+      return element
+    }
   }
 }
 
@@ -1878,8 +1878,11 @@ function cloneOptions (options) {
 var simplePromise = require('./simplePromise')
 
 function runRender (mount, fn) {
-  var render = new Render(mount)
+  if (runRender._currentRender) {
+    return
+  }
 
+  var render = new Render(mount)
   try {
     runRender._currentRender = render
 
@@ -3894,8 +3897,6 @@ function isArray(obj) {
 },{}],57:[function(require,module,exports){
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3905,32 +3906,7 @@ var h = hyperdom.html;
 
 module.exports = function () {
   function Modal() {
-    var _this = this;
-
     _classCallCheck(this, Modal);
-
-    var firstArgumentIsOptions = _typeof(arguments[0]) === 'object' && typeof arguments[0].tagName === 'undefined';
-
-    var _ref = firstArgumentIsOptions ? arguments[0] : {},
-        openBinding = _ref.openBinding,
-        dialogOptions = _ref.dialogOptions,
-        onCancel = _ref.onCancel;
-
-    this._openBinding = hyperdom.binding(openBinding || [this, '_binding']);
-    this._dialogOptions = dialogOptions;
-    this._onCancel = onCancel || function () {};
-    this._content = [].slice.call(arguments, firstArgumentIsOptions ? 1 : 0);
-
-    this._closeHandler = function () {
-      if (_this._isProgrammaticClose) {
-        delete _this._isProgrammaticClose;
-      } else {
-        _this._onCancel();
-        _this._isOpen = false;
-        _this._openBinding.set(false);
-        _this.refreshImmediately();
-      }
-    };
   }
 
   _createClass(Modal, [{
@@ -3959,25 +3935,49 @@ module.exports = function () {
       this._openBinding.set(false);
     }
   }, {
-    key: 'onrender',
-    value: function onrender(element) {
-      var _this2 = this;
-
-      var dialogPolyfill = require('dialog-polyfill');
-      dialogPolyfill.registerDialog(element);
-      element.removeEventListener('close', this._closeHandler);
-      element.addEventListener('close', this._closeHandler);
-      showModalOrClose(this, element);
-      element.addEventListener('click', function (event) {
-        _this2.outsideClickHandler(event, element);
-      });
-    }
-  }, {
     key: 'render',
-    value: function render() {
-      return h('dialog', this._dialogOptions, this._content.map(function (c) {
-        return typeof c === 'function' ? c() : c;
-      }));
+    value: function render(options) {
+      var _this = this;
+
+      var hasOptions = options && options.constructor === Object;
+      var content = Array.prototype.slice.call(arguments, hasOptions ? 1 : 0);
+
+      var _ref = hasOptions ? options : {},
+          openBinding = _ref.openBinding,
+          dialogOptions = _ref.dialogOptions,
+          onCancel = _ref.onCancel;
+
+      this._openBinding = hyperdom.binding(openBinding || [this, '_binding']);
+      this._onCancel = onCancel || function () {};
+
+      var closeHandler = function closeHandler() {
+        if (_this._isProgrammaticClose) {
+          delete _this._isProgrammaticClose;
+        } else {
+          _this._onCancel();
+          _this._isOpen = false;
+          _this._openBinding.set(false);
+        }
+      };
+
+      return {
+        onadd: function onadd(element) {
+          var dialogPolyfill = require('dialog-polyfill');
+          dialogPolyfill.registerDialog(element);
+          element.addEventListener('close', closeHandler);
+          element.addEventListener('click', function (event) {
+            _this.outsideClickHandler(event, element);
+          });
+        },
+
+        onrender: function onrender(element) {
+          showModalOrClose(_this, element);
+        },
+
+        render: function render() {
+          return h('dialog', dialogOptions, content);
+        }
+      };
     }
   }]);
 
