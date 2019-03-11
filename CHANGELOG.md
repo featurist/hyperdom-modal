@@ -1,3 +1,7 @@
+# 2.1.0 / 2019-03-11
+
+- Upgrade hyperdom peer dependency
+
 # 2.0.1 / 2018-05-02
 
 - Bump dependencies
