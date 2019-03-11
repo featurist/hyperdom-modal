@@ -1000,6 +1000,7 @@ browser-resolve@^1.11.0, browser-resolve@^1.7.0:
 browser-split@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/browser-split/-/browser-split-0.0.1.tgz#7b097574f8e3ead606fb4664e64adfdda2981a93"
+  integrity sha1-ewl1dPjj6tYG+0Zk5krf3aKYGpM=
 
 browserify-aes@^1.0.0, browserify-aes@^1.0.4:
   version "1.2.0"
@@ -1297,6 +1298,7 @@ camelcase@^4.1.0:
 camelize@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/camelize/-/camelize-1.0.0.tgz#164a5483e630fa4321e5af07020e531831b2609b"
+  integrity sha1-FkpUg+Yw+kMh5a8HAg5TGDGyYJs=
 
 caniuse-lite@^1.0.30000876, caniuse-lite@^1.0.30000877:
   version "1.0.30000878"
@@ -1832,6 +1834,7 @@ dom-serializer@0:
 dom-walk@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/dom-walk/-/dom-walk-0.1.1.tgz#672226dc74c8f799ad35307df936aba11acd6018"
+  integrity sha1-ZyIm3HTI95mtNTB9+TaroRrNYBg=
 
 domain-browser@^1.2.0:
   version "1.2.0"
@@ -1933,6 +1936,7 @@ error-ex@^1.2.0, error-ex@^1.3.1:
 error@^4.3.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/error/-/error-4.4.0.tgz#bf69ff251fb4a279c19adccdaa6b61e90d9bf12a"
+  integrity sha1-v2n/JR+0onnBmtzNqmth6Q2b8So=
   dependencies:
     camelize "^1.0.0"
     string-template "~0.2.0"
@@ -2078,6 +2082,7 @@ etag@~1.8.1:
 ev-store@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/ev-store/-/ev-store-7.0.0.tgz#1ab0c7f82136505dd74b31d17701cb2be6d26558"
+  integrity sha1-GrDH+CE2UF3XSzHRdwHLK+bSZVg=
   dependencies:
     individual "^3.0.0"
 
@@ -2480,6 +2485,7 @@ global-prefix@^3.0.0:
 global@^4.3.0:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/global/-/global-4.3.2.tgz#e76989268a6c74c38908b1305b10fc0e394e9d0f"
+  integrity sha1-52mJJopsdMOJCLEwWxD8DjlOnQ8=
   dependencies:
     min-document "^2.19.0"
     process "~0.5.1"
@@ -3020,6 +3026,7 @@ is-obj@^1.0.0, is-obj@^1.0.1:
 is-object@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/is-object/-/is-object-1.0.1.tgz#8952688c5ec2ffd6b03ecc85e769e02903083470"
+  integrity sha1-iVJojF7C/9awPsyF52ngKQMINHA=
 
 is-observable@^1.1.0:
   version "1.1.0"
@@ -3412,6 +3419,7 @@ loud-rejection@^1.0.0:
 lower-case@^1.1.1:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/lower-case/-/lower-case-1.1.4.tgz#9a2cabd1b9e8e0ae993a4bf7d5875c39c42e8eac"
+  integrity sha1-miyr0bno4K6ZOkv31YdcOcQujqw=
 
 lru-cache@^4.0.1:
   version "4.1.2"
@@ -3546,6 +3554,7 @@ mimic-fn@^1.0.0:
 min-document@^2.19.0:
   version "2.19.0"
   resolved "https://registry.yarnpkg.com/min-document/-/min-document-2.19.0.tgz#7bd282e3f5842ed295bb748cdd9f1ffa2c824685"
+  integrity sha1-e9KC4/WELtKVu3SM3Z8f+iyCRoU=
   dependencies:
     dom-walk "^0.1.0"
 
@@ -3678,6 +3687,7 @@ needle@^2.2.1:
 next-tick@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-0.2.2.tgz#75da4a927ee5887e39065880065b7336413b310d"
+  integrity sha1-ddpKkn7liH45BliABltzNkE7MQ0=
 
 nice-try@^1.0.4:
   version "1.0.4"
@@ -3995,6 +4005,7 @@ pako@~1.0.5:
 param-case@^1.0.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/param-case/-/param-case-1.1.2.tgz#dcb091a43c259b9228f1c341e7b6a44ea0bf9743"
+  integrity sha1-3LCRpDwlm5Io8cNB57akTqC/l0M=
   dependencies:
     sentence-case "^1.1.2"
 
@@ -4321,6 +4332,7 @@ process@~0.11.0:
 process@~0.5.1:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/process/-/process-0.5.2.tgz#1638d8a8e34c2f440a91db95ab9aeb677fc185cf"
+  integrity sha1-FjjYqONML0QKkduVq5rrZ3/Bhc8=
 
 progress@^2.0.0:
   version "2.0.0"
@@ -4792,6 +4804,7 @@ send@0.16.2:
 sentence-case@^1.1.2:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/sentence-case/-/sentence-case-1.1.3.tgz#8034aafc2145772d3abe1509aa42c9e1042dc139"
+  integrity sha1-gDSq/CFFdy06vhUJqkLJ4QQtwTk=
   dependencies:
     lower-case "^1.1.1"
 
@@ -5066,6 +5079,7 @@ string-argv@^0.0.2:
 string-template@~0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/string-template/-/string-template-0.2.1.tgz#42932e598a352d01fc22ec3367d9d84eec6c9add"
+  integrity sha1-QpMuWYo1LQH8IuwzZ9nYTuxsmt0=
 
 string-width@^1.0.1, string-width@^1.0.2:
   version "1.0.2"
@@ -5574,10 +5588,12 @@ validate-npm-package-license@^3.0.1:
 vdom-parser@1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/vdom-parser/-/vdom-parser-1.3.4.tgz#cc4b44be2113791d34a954f5e3723e3b48bc8081"
+  integrity sha1-zEtEviETeR00qVT143I+O0i8gIE=
 
 vdom-to-html@2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/vdom-to-html/-/vdom-to-html-2.3.1.tgz#14762673676d1b9cfb3f18d7eb566f527546519d"
+  integrity sha1-FHYmc2dtG5z7PxjX61ZvUnVGUZ0=
   dependencies:
     escape-html "^1.0.1"
     param-case "^1.0.1"
@@ -5606,6 +5622,7 @@ vfile@^3.0.0:
 virtual-dom@2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/virtual-dom/-/virtual-dom-2.1.1.tgz#80eda2d481b9ede0c049118cefcb4a05f21d1375"
+  integrity sha1-gO2i1IG57eDASRGM78tKBfIdE3U=
   dependencies:
     browser-split "0.0.1"
     error "^4.3.0"
@@ -5715,6 +5732,7 @@ ws@^1.1.1:
 x-is-array@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/x-is-array/-/x-is-array-0.1.0.tgz#de520171d47b3f416f5587d629b89d26b12dc29d"
+  integrity sha1-3lIBcdR7P0FvVYfWKbidJrEtwp0=
 
 x-is-string@0.1.0, x-is-string@^0.1.0:
   version "0.1.0"
