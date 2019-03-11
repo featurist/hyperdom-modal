@@ -1,46 +1,55 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+"use strict";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 var hyperdom = require('hyperdom');
+
 var h = hyperdom.html;
+
 var HyperdomModal = require('../src/hyperdom-modal');
 
-var DemoApp = function () {
+var DemoApp =
+/*#__PURE__*/
+function () {
   function DemoApp() {
     _classCallCheck(this, DemoApp);
 
     this._favourite = 'undecided';
     this._choosing = false;
     this._title = 'World';
-
     this._modal1 = new HyperdomModal();
     this._modal2 = new HyperdomModal();
   }
 
   _createClass(DemoApp, [{
-    key: 'render',
+    key: "render",
     value: function render() {
       var _this = this;
 
-      return h('main.container', h('h1.text-center', h('a', { href: 'https://github.com/featurist/hyperdom-modal' }, 'Hyperdom Modal'), ' Demo'), h('.text-center', h('button', {
+      return h('main.container', h('h1.text-center', h('a', {
+        href: 'https://github.com/featurist/hyperdom-modal'
+      }, 'Hyperdom Modal'), ' Demo'), h('.text-center', h('button', {
         onclick: function onclick() {
           return _this._modal1.open();
         }
       }, 'Greet me')), h('.text-center', h('p', 'Your favourite animal is: ', this._favourite), h('button', {
         onclick: function onclick() {
           _this._previousFavourite = _this._favourite;
+
           _this._modal2.open();
         }
       }, 'Choose an animal')), h('.text-center', h('button', {
         onclick: function onclick() {
           _this._title = 'Brand New World';
+
           _this._modal1.open();
         }
-      }, 'Update title and open modal')), this._modal1.render(h('.modal-content', h('h2.modal-heading', 'Hello ' + this._title + '!'), h('button', {
+      }, 'Update title and open modal')), this._modal1.render(h('.modal-content', h('h2.modal-heading', "Hello ".concat(this._title, "!")), h('button', {
         onclick: function onclick() {
           return _this._modal1.close();
         }
@@ -49,8 +58,12 @@ var DemoApp = function () {
         onCancel: function onCancel() {
           _this._favourite = _this._previousFavourite;
         },
-        dialogOptions: { class: 'modal' }
-      }, h('.modal-content', h('h2.modal-heading', 'Choose your favourite!'), h('p', 'What is your favourite animal?'), h('p', h('select', { binding: [this, '_favourite'] }, h('option', 'undecided'), h('option', 'cat'), h('option', 'dog'))), h('button', {
+        dialogOptions: {
+          class: 'modal'
+        }
+      }, h('.modal-content', h('h2.modal-heading', 'Choose your favourite!'), h('p', 'What is your favourite animal?'), h('p', h('select', {
+        binding: [this, '_favourite']
+      }, h('option', 'undecided'), h('option', 'cat'), h('option', 'dog'))), h('button', {
         onclick: function onclick() {
           return _this._modal2.close();
         }
@@ -991,7 +1004,10 @@ var inputTypeBindings = {
     })
 
     var values = []
-    var selectedIndex
+
+    var valueSelected = attributes.multiple
+      ? function (value) { return currentValue instanceof Array && currentValue.indexOf(value) >= 0 }
+      : function (value) { return currentValue === value }
 
     for (var n = 0; n < options.length; n++) {
       var option = options[n]
@@ -1001,22 +1017,28 @@ var inputTypeBindings = {
 
       values.push(hasValue ? value : text)
 
-      var selected = hasValue ? value === currentValue : text === currentValue
-
-      if (selected) {
-        selectedIndex = n
-      }
+      var selected = valueSelected(hasValue ? value : text)
 
       option.properties.selected = selected
     }
 
-    if (selectedIndex !== undefined) {
-      attributes.selectedIndex = selectedIndex
-    }
-
     attachEventHandler(attributes, 'onchange', function (ev) {
-      attributes.selectedIndex = ev.target.selectedIndex
-      return binding.set(values[ev.target.selectedIndex])
+      if (ev.target.multiple) {
+        var options = ev.target.options
+
+        var selectedValues = []
+
+        for (var n = 0; n < options.length; n++) {
+          var op = options[n]
+          if (op.selected) {
+            selectedValues.push(values[n])
+          }
+        }
+        return binding.set(selectedValues)
+      } else {
+        attributes.selectedIndex = ev.target.selectedIndex
+        return binding.set(values[ev.target.selectedIndex])
+      }
     }, binding)
   },
 
@@ -1192,6 +1214,7 @@ function afterUpdate (model, element, oldElement) {
 
 Component.prototype.update = function (previous) {
   if (previous.key !== this.key || this.model.constructor !== previous.model.constructor) {
+    previous.destroy()
     return this.init()
   } else {
     var self = this
@@ -1446,6 +1469,8 @@ exports.component = function (model) {
 }
 
 exports.currentRender = render.currentRender
+exports.RenderComponent = function () {} // placeholder for typescript
+exports.RoutesComponent = function () {} // placeholder for typescript
 
 },{"./binding":7,"./deprecations":10,"./join":14,"./meta":16,"./refreshEventResult":21,"./render":22,"./rendering":23,"./viewComponent":28}],13:[function(require,module,exports){
 var virtualDomVersion = require('virtual-dom/vnode/version')
@@ -1820,11 +1845,16 @@ function refreshEventResult (result, mount, options) {
   var onlyRefreshAfterPromise = options && options.refresh === 'promise'
   var componentToRefresh = options && options.component
 
+  function handlePromiseResult (result) {
+    var opts = cloneOptions(options)
+    opts.refresh = undefined
+    refreshEventResult(result, mount, opts)
+  }
+
   if (result && typeof (result.then) === 'function') {
-    result.then(function (result) {
-      var opts = cloneOptions(options)
-      opts.refresh = undefined
-      refreshEventResult(result, mount, opts)
+    result.then(handlePromiseResult, function (error) {
+      handlePromiseResult(error)
+      throw error
     })
   }
 
@@ -1893,6 +1923,7 @@ function runRender (mount, fn) {
     runRender._currentRender = undefined
   }
 }
+runRender._currentRender = undefined
 
 function Render (mount) {
   this.finished = simplePromise()
@@ -3897,45 +3928,53 @@ function isArray(obj) {
 },{}],57:[function(require,module,exports){
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 var hyperdom = require('hyperdom');
+
 var h = hyperdom.html;
 
-module.exports = function () {
+module.exports =
+/*#__PURE__*/
+function () {
   function Modal() {
     _classCallCheck(this, Modal);
   }
 
   _createClass(Modal, [{
-    key: 'outsideClickHandler',
+    key: "outsideClickHandler",
     value: function outsideClickHandler(event, element) {
       if (event.target === element && this._isOpen) {
         element.close();
       }
     }
   }, {
-    key: 'open',
+    key: "open",
     value: function open() {
       this._openBinding.set(true);
     }
   }, {
-    key: 'close',
+    key: "close",
     value: function close() {
       this._isProgrammaticClose = true;
+
       this._openBinding.set(false);
     }
   }, {
-    key: 'cancel',
+    key: "cancel",
     value: function cancel() {
       this._isProgrammaticClose = true;
+
       this._onCancel();
+
       this._openBinding.set(false);
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render(options) {
       var _this = this;
 
@@ -3948,6 +3987,7 @@ module.exports = function () {
           onCancel = _ref.onCancel;
 
       this._openBinding = hyperdom.binding(openBinding || [this, '_binding']);
+
       this._onCancel = onCancel || function () {};
 
       var closeHandler = function closeHandler() {
@@ -3955,7 +3995,9 @@ module.exports = function () {
           delete _this._isProgrammaticClose;
         } else {
           _this._onCancel();
+
           _this._isOpen = false;
+
           _this._openBinding.set(false);
         }
       };
@@ -3963,17 +4005,16 @@ module.exports = function () {
       return {
         onadd: function onadd(element) {
           var dialogPolyfill = require('dialog-polyfill');
+
           dialogPolyfill.registerDialog(element);
           element.addEventListener('close', closeHandler);
           element.addEventListener('click', function (event) {
             _this.outsideClickHandler(event, element);
           });
         },
-
         onrender: function onrender(element) {
           showModalOrClose(_this, element);
         },
-
         render: function render() {
           return h('dialog', dialogOptions, content);
         }
@@ -3987,6 +4028,7 @@ module.exports = function () {
 function showModalOrClose(modal, element) {
   var wasOpen = modal._isOpen;
   modal._isOpen = modal._openBinding.get();
+
   if (modal._isOpen && !wasOpen) {
     element.showModal();
   } else if (wasOpen && !modal._isOpen) {
