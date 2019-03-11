@@ -1,3 +1,7 @@
+# 2.1.0 / 2018-05-02
+
+- Bump dependencies
+
 # 2.0.1 / 2018-05-02
 
 - Bump dependencies
