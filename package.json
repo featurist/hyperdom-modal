@@ -26,8 +26,7 @@
     "lint": "prettier '**/*.{js,json,md}' --write; eslint '**/*.js' --fix; stylelint 'demo/css/*.css' --fix",
     "copy-polyfill-css": "cp node_modules/dialog-polyfill/dialog-polyfill.css dist",
     "demo-bundle": "browserify demo/demo.js -t babelify -o demo/demo-bundle.js",
-    "build": "babel src -d dist && yarn copy-polyfill-css",
-    "prepublish": "nsp check"
+    "build": "babel src -d dist && yarn copy-polyfill-css"
   },
   "dependencies": {
     "dialog-polyfill": "^0.4.10"
@@ -49,7 +48,6 @@
     "husky": "^1.3.1",
     "hyperdom": "^0.15.0",
     "lint-staged": "^8.1.5",
-    "nsp": "^3.2.1",
     "prettier": "^1.16.4",
     "stylelint": "^9.10.1",
     "stylelint-config-standard": "^18.2.0"
